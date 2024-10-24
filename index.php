@@ -19,35 +19,32 @@ if (!isset($_SESSION['user'])) {
         <header class="header">
             <div class="container d-flex justify-content-between">
             <a href="" class="log">
-                <img width="64" height="64" src ="https://img.icons8.com/cute-clipart/64/chat.png" alt = "chat" />
+            <img width="64" height="64" src ="https://img.icons8.com/cute-clipart/64/chat.png" alt = "chat" />
             </a>
-
             <a href="">
             <img width="48" height="48" src="https://img.icons8.com/fluency/48/user-male-circle--v1.png" alt="user-male-circle--v1"/>
             </a>
             </div>
-            
         </header>
         <main>
             <div class="container">
-           
-                <div class="chat_items d-flex gap-2 flex-column"> 
+                <div class="chat_items d-flex gap-2"> 
             <?php
             require_once './database.php';
             $sql = "SELECT * FROM messages ORDER BY created_at DESC";
             $result = $coon->query($sql);
             while ($row = $result->fetch_assoc()) {
                 echo "<div class='chat_item'>
-                <h5>" . htmlspecialchars($row['username']) . "</h5> " ."<div class='meassage'>". htmlspecialchars($row['message']) ." <div class='date'>" . $row['created_at'] . "</div>". "</div>";
+                <h5>" . htmlspecialchars($row['username']) . "</h5> " ."<div class='meassage'>". htmlspecialchars($row['message']) ."</div>";
                 if ($row['file_name']) {
-                    echo '<a href="uploads/' . htmlspecialchars($row['file_name']) . '" clas="file flex" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2246/2246690.png"/> <span>Ko\'rish</span></a>';
+                    echo '<a href="uploads/' . htmlspecialchars($row['file_name']) . '" class="d-flex file " target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2246/2246690.png"/> <span>Ko\'rish</span></a>'." <div class='date'>" . $row['created_at'] . "</div>";
                 }
                 echo "</div>";
             }
             ?>
                     
                 </div>
-                <form action="index.php" method="POST" enctype="multipart/form-data" class="mt-3">
+                <form action="index.php" method="POST" class="mt-3">
             <div class="input-group">
                 <input type="text" name="message" class="form-control" placeholder="Xabar yozing" required>
                 <input type="file" name="file" class="form-control">
@@ -60,7 +57,7 @@ if (!isset($_SESSION['user'])) {
         $message = $_POST['message'];
         $file_name = null;
 
-        if (isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK) {
+        if (!empty($_POST['file']) && isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK) {
             // Faylni yuklash
             $target_dir = "uploads/";
             $file_name = basename($_FILES['file']['name']);
@@ -77,15 +74,13 @@ if (!isset($_SESSION['user'])) {
         $stmt = $coon->prepare("INSERT INTO messages (username, message, file_name) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $message, $file_name);
         $stmt->execute();
-        header("Location: index.php"); // Xabar yuborilgandan so'ng sahifani yangilash
+        header("Location: index.php");
         exit();
     }
     ?>
             </div>
         </main>
     </div>
-</body>
-</html> 
 
 
 
@@ -94,9 +89,6 @@ if (!isset($_SESSION['user'])) {
         $username = $_SESSION['user'];
         $message = $_POST['message'];
         $file_name = null;
-        if(!$file_name == null){
-
-        }
         if (isset($_FILES['file']) && $_FILES['file']['error'] == UPLOAD_ERR_OK) {
             // Faylni yuklash
             $target_dir = "uploads/";

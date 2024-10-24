@@ -42,30 +42,53 @@ border-radius: 8px;
 }
 .chat_item{
     padding: 8px;
-
-    
+    background-color: rgba(122, 170, 255, 0.736);
+    border-radius: 8px;
  }
+.chat_item h5{
+    text-transform: capitalize;
+}
 .meassage{
     padding: 8px;
-    background-color: rgb(72, 72, 248);
+    background-color: rgb(166, 243, 251);
     border-radius: 8px;
 }
 .chat_items{
     overflow-y: auto;
     height: 340px;
+    flex-direction: column-reverse;
+}
+.chat_items::-webkit-scrollbar{
+    width: 5px;
+    background-color: #c6ffff;
+
+}
+.chat_items::-webkit-scrollbar-thumb{
+    background-color: aqua;
 }
 .chat_item:nth-child(2n){
-    background-color: rgb(166, 0, 255);
+    background-color: rgb(97, 150, 240);
 } 
 .date{
     color: #ffffffa7;
     font-size: 14px;
+    margin-top: 10px;
 }
 .file{
-    background-color: red;
+    margin-top: 20px;
+    background-color: rgb(166, 243, 251);
+    border-radius: 8px;
+    padding: 10px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 0 8px;
 }
 .file img{
     width: 40px;
     
+}
+.file a{
+    color: rgb(31, 102, 255);
 }
 
